@@ -36,9 +36,17 @@ function submitHandle(event) {
   createPromise(delayTime, choice)
     .then(value => {
       console.log(value);
+      iziToast.show({
+        ...iziSuccessOptions,
+        message: `Fulfilled promise in ${delayTime}ms`,
+      });
     })
     .catch(error => {
       console.log(error);
+      iziToast.show({
+        ...iziRejectOptions,
+        message: `Rejected promise in ${delayTime}ms`,
+      });
     });
   form.reset();
 }
@@ -47,19 +55,9 @@ function createPromise(delayTime, choice) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (choice === 'fulfilled') {
-        resolve(
-          iziToast.show({
-            ...iziSuccessOptions,
-            message: `Fulfilled promise in ${delayTime}ms`,
-          })
-        );
+        resolve(delayTime);
       } else {
-        reject(
-          iziToast.show({
-            ...iziRejectOptions,
-            message: `Rejected promise in ${delayTime}ms`,
-          })
-        );
+        reject(delayTime);
       }
     }, delayTime);
   });
